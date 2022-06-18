@@ -1,0 +1,23 @@
+{
+  "name": "idd_20221",
+  "version": "1.0.0",
+  "description": "Trabajo Nido MPE",
+  "main": "index.js",
+  "scripts": {
+    "sql": "node test-sql.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angelotacoj/idd_20221.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/angelotacoj/idd_20221/issues"
+  },
+  "homepage": "https://github.com/angelotacoj/idd_20221#readme",
+  "dependencies": {
+    "oracledb": "^5.4.0"
+  }
+}
