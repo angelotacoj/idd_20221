@@ -28,48 +28,71 @@
  *
  *****************************************************************************/
 
- 'use strict';
+'use strict';
 
- const fs = require('fs');
- const oracledb = require('oracledb');
- const dbConfig = require('./dbconfig.js');
- 
- // On Windows and macOS, you can specify the directory containing the Oracle
- // Client Libraries at runtime, or before Node.js starts.  On other platforms
- // the system library search path must always be set before Node.js is started.
- // See the node-oracledb installation documentation.
- // If the search path is not correct, you will get a DPI-1047 error.
- let libPath;
- if (process.platform === 'win32') {           // Windows
-   libPath = 'C:\\oracle\\instantclient_19_12';
- } else if (process.platform === 'darwin') {   // macOS
-   libPath = process.env.HOME + '/Downloads/instantclient_19_8';
- }
- if (libPath && fs.existsSync(libPath)) {
-   oracledb.initOracleClient({ libDir: libPath });
- }
- 
- async function run() {
- 
-   let connection;
- 
-   try {
-     // Get a non-pooled connection
-     connection = await oracledb.getConnection(dbConfig);
- 
-     console.log('Connection was successful!');
- 
-   } catch (err) {
-     console.error(err);
-   } finally {
-     if (connection) {
-       try {
-         await connection.close();
-       } catch (err) {
-         console.error(err);
-       }
-     }
-   }
- }
- 
- run();
+const fs = require('fs');
+const oracledb = require('oracledb');
+const dbConfig = require('./dbconfig.js');
+
+// On Windows and macOS, you can specify the directory containing the Oracle
+// Client Libraries at runtime, or before Node.js starts.  On other platforms
+// the system library search path must always be set before Node.js is started.
+// See the node-oracledb installation documentation.
+// If the search path is not correct, you will get a DPI-1047 error.
+let libPath;
+if (process.platform === 'win32') {           // Windows
+    libPath = 'C:\\oracle\\instantclient_19_12';
+} else if (process.platform === 'darwin') {   // macOS
+    libPath = process.env.HOME + '/Downloads/instantclient_19_8';
+}
+if (libPath && fs.existsSync(libPath)) {
+    oracledb.initOracleClient({ libDir: libPath });
+}
+
+async function run() {
+
+    let connection;
+
+    try {
+        // Get a non-pooled connection
+        connection = await oracledb.getConnection(dbConfig);
+
+        console.log('Connection was successful!');
+
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (connection) {
+            try {
+                await connection.close();
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    }
+}
+
+//  run();
+
+const runTest = async () => {
+    let conn
+
+    try {
+        conn = await oracledb.getConnection(dbConfig)
+        const result = await conn.execute(
+            'SELECT * FROM USUARIO;'
+        )
+
+        console.log('result =', result)
+    } catch (err) {
+        console.error('err 1 =', err)
+    } finally {
+        try {
+            if (conn) await conn.close()
+        } catch (err) {
+            console.error('err 2 =', err)
+        }
+    }
+}
+
+runTest()
