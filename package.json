@@ -4,7 +4,7 @@
   "description": "Trabajo Nido MPE",
   "main": "index.js",
   "scripts": {
-    "sql": "node test-sql.js"
+    "sql": "export TNS_ADMIN=/Users/angelotacoj/Downloads/instantclient_19_8 && node test-sql.js"
   },
   "repository": {
     "type": "git",
