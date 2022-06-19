@@ -80,7 +80,7 @@ const runTest = async () => {
     try {
         conn = await oracledb.getConnection(dbConfig)
         const result = await conn.execute(
-            'SELECT * FROM USUARIO;'
+            'SELECT * FROM USUARIO'
         )
 
         console.log('result =', result)

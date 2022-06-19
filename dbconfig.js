@@ -1,5 +1,5 @@
 module.exports = {
-  user: "angelotacoj",
+  user: "ADMIN",
   // password      : process.env.NODE_ORACLEDB_PASSWORD,
   password: "20181849@aloe.ulima.edu.PE",
   // connectString : "localhost/XEPDB1"
