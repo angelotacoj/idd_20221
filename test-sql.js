@@ -80,7 +80,12 @@ const runTest = async () => {
     try {
         conn = await oracledb.getConnection(dbConfig)
         const result = await conn.execute(
-            'SELECT * FROM USUARIO'
+            `INSERT INTO USUARIO VALUES('4010', TO_DATE('20/12/2006', 'DD/MM/YYYY'), 
+            'ADMINISTRADOR', '922928505', 'ANGELO','TACO','JIMENEZ','HOLIS')`,
+            [],
+            { autoCommit: true }
+            // 'SELECT * FROM USUARIO'
+            
         )
 
         console.log('result =', result)
