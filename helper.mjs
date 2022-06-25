@@ -2,6 +2,7 @@
 // const oracledb = require('oracledb');
 // const dbConfig = require('./dbconfig.js');
 
+import { Console } from 'console';
 import * as fs from 'fs';
 import oracledb from 'oracledb'
 import { dbConfig } from './dbconfig.mjs'
@@ -90,15 +91,35 @@ async function updateWorkshop(){
 }
 
 export async function getAllWorkshops() {
-    const workshops = await runSelect('SELECT * FROM TALLER')
+    const workshops = await runSelect(`SELECT COD_TALLER, NOMBRE_TALLER, DESCRIPCION, FECHA, UPPER(HORA_INICIO || ' - ' || HORA_FINAL) AS HORA FROM TALLER`)
     const headers = workshops.metaData
-    console.log('headers =', headers)
+    const rows = workshops.rows
+    //console.log('headers =', headers)
 
-    let html = ''
+    let htmlHead = ''
     for (const header of headers){
         const nameHTML = '<th scope="col">' + header.name + '</th>'
-        html = html + nameHTML
+        htmlHead = htmlHead + nameHTML
+        //console.log(nameHTML)
     }
+    //console.log(htmlHead)
+
+    let htmlRowWS = ''
+    for (const row of rows){  
+        let htmlRow = ''
+        for(const elem of row){
+            const td_html = `<td>`+ elem +`</td>`
+            htmlRow = htmlRow + td_html
+        }
+        const tr_html = `<tr>`+ htmlRow +`</tr>`
+        htmlRowWS = htmlRowWS + tr_html
+    }
+    
+    console.log(htmlRowWS)
+    // console.log(htmlRowWS)
+    // console.log("")
+    // console.log(htmlRow)
+
 
     console.log('workshops =', workshops)
     return `
@@ -128,79 +149,22 @@ export async function getAllWorkshops() {
 
                 <div class="row">
                     <div class="col-9">
-
-                        <h3>Agrege el taller</h3>
+                        <h3>Talleres</h3>
                         <table class="table table-bordered">
-
                             <thead>
                                 <tr>
-                                    <th scope="col">Rubro</th>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Fecha</th>
-                                    <th scope="col">Hora</th>
-                                    <th scope="col">ID</th>
+                                    ${htmlHead}
                                 </tr>
                             </thead>
-                            <!--
                             <tbody>
-                                <tr>
-
-                                    <td>Rubro 1</td>
-                                    <td>Mark</td>
-                                    <td>22/06/2022</td>
-                                    <td>Smith</td>
-                                    <td>0020</td>
-
-                                </tr>
-                                <tr>
-                                    <td>Rubro 1</td>
-                                    <td>Mark</td>
-                                    <td>22/06/2022</td>
-                                    <td>Smith</td>
-                                    <td>1230</td>
-                                </tr>
-                                <tr>
-                                    <td>Rubro 2</td>
-                                    <td>Mark</td>
-                                    <td>22/06/2022</td>
-                                    <td>Smith</td>
-                                    <td>4611</td>
-                                </tr>
-                                <tr>
-                                    <td>Rubro 3</td>
-                                    <td>Mark</td>
-                                    <td>22/06/2022</td>
-                                    <td>Smith</td>
-                                    <td>1615</td>
-                                </tr>
-                                <tr>
-                                    <td>20184512</td>
-                                    <td>Mark</td>
-                                    <td>22/06/2022</td>
-                                    <td>Smith</td>
-                                    <td>5to8787td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                ${htmlRowWS}
                             </tbody>
-                            -->
                         </table>
 
                     </div>
-                    <div class="col-1">
-                        <div style="margin-top: 120px;">
-                            <button type="button" class="btn btn-primary">Editar</button>
-
-                            <button type="button" class="btn btn-success">Editar</button>
-                        </div>
-                    </div>
                 </div>
-                <button type="button" class="btn btn-success">AGREGAR TALLER</button>
+                <button type="button" class="btn btn-primary">Agregar Taller</button>
+                <button type="button" class="btn btn-secondary">Editar Taller</button>
             </div>
         </body>
         </html>  
