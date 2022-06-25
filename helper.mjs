@@ -91,6 +91,15 @@ async function updateWorkshop(){
 
 export async function getAllWorkshops() {
     const workshops = await runSelect('SELECT * FROM TALLER')
+    const headers = workshops.metaData
+    console.log('headers =', headers)
+
+    let html = ''
+    for (const header of headers){
+        const nameHTML = '<th scope="col">' + header.name + '</th>'
+        html = html + nameHTML
+    }
+
     console.log('workshops =', workshops)
     return `
             <!DOCTYPE html>
@@ -130,10 +139,9 @@ export async function getAllWorkshops() {
                                     <th scope="col">Fecha</th>
                                     <th scope="col">Hora</th>
                                     <th scope="col">ID</th>
-
-
                                 </tr>
                             </thead>
+                            <!--
                             <tbody>
                                 <tr>
 
@@ -180,6 +188,7 @@ export async function getAllWorkshops() {
                                     <td></td>
                                 </tr>
                             </tbody>
+                            -->
                         </table>
 
                     </div>
