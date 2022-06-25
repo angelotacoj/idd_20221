@@ -286,6 +286,84 @@ async function getAllMarksByStudent(){
     console.log('marksByStudent =', marksByStudent)
 }
 
+export async function getAllMarksBySection(){
+    const marksBySection = await runSelect(
+        `SELECT U.DNI, U.NOMBRES_NOMBRE, U.APELLIDOP_NOMBRE, U.APELLIDOM_NOMBRE,S.NOMBRE_SECCION
+        FROM USUARIO U
+        INNER JOIN ALUMNO A 
+        ON U.DNI = A.COD_ALUMNO
+        INNER JOIN MATRICULA M
+        ON M.COD_ALUMNO = A.COD_ALUMNO
+        INNER JOIN SECCION S 
+        ON M.COD_SECCION = S.COD_SECCION
+        WHERE S.NOMBRE_SECCION='ROJO'
+        `
+    )
+    const headers = marksBySection.metaData
+    const rows = marksBySection.rows
+
+    let htmlHead = ''
+    for (const header of headers){
+        const nameHTML = '<th scope="col">' + header.name + '</th>'
+        htmlHead = htmlHead + nameHTML
+        //console.log(nameHTML)
+    }
+    let htmlRowWS = ''
+    for (const row of rows){  
+        let htmlRow = ''
+        for(const elem of row){
+            const td_html = `<td>`+ elem +`</td>`
+            
+            htmlRow = htmlRow + td_html 
+        }
+        const td_html_input = `<td><input type="text"></td>`
+        const tr_html = `<tr>`+ htmlRow + td_html_input +`</tr>`
+        htmlRowWS = htmlRowWS + tr_html
+    }
+
+    return `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+            <link rel="stylesheet" href="style.css">
+            <title>Document</title>
+        </head>
+        <body>
+        <nav class="border-bottom">
+            <img src="media/139191135_3819700778053406_7422346157977545339_n.png" alt="" style="width: 60px; height: 60px;">
+            <div class="d-flex flex-column justify-content-center ms-3">
+                <h5 >SISTEMA ESCOLAR</h5>
+                <h6>Editar perfil</h6>
+            </div>
+            <a href="login.html" style="margin-left: auto; display: flex; padding: 10px; text-decoration: none;" >
+                <button type="button" class="btn btn-info">Menu principal</button>
+            </a>
+        </nav>
+            <div class="container" id="borde">
+                <h3>Ingrese la nota</h3>
+                <table class="table table-bordered" >
+                    <thead>
+                    <tr>
+                        ${htmlHead}
+                        <th scope="col">NOTA</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        ${htmlRowWS}
+                        
+                    </tbody>
+                </table>
+            </div>
+        </body>
+        </html>
+    `
+}
+
 
 
 
