@@ -1,6 +1,11 @@
-const fs = require('fs');
-const oracledb = require('oracledb');
-const dbConfig = require('./dbconfig.js');
+// const fs = require('fs');
+// const oracledb = require('oracledb');
+// const dbConfig = require('./dbconfig.js');
+
+import * as fs from 'fs';
+import * as oracledb from 'oracledb'
+import { dbConfig } from './dbconfig.mjs'
+
 
 let libPath;
 if (process.platform === 'win32') {           // Windows
@@ -84,9 +89,10 @@ async function updateWorkshop(){
     console.log('updateWorkshop =', updateWorkshop)
 }
 
-async function getAllWorkshops() {
+export async function getAllWorkshops() {
     const workshops = await runSelect('SELECT * FROM TALLER')
     console.log('workshops =', workshops)
+    return '<h1>Talleres</h1>'
 }
 
 // Comando de prueba, Funcion que imprime al estudiante junto a su apoderado
