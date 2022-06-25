@@ -80,9 +80,71 @@ async function runUpdate(query) {
 
 // Workshop - Talleres
 
-async function createNewWorkshop(){
-    const newWorkshop = await runInsert(`INSERT INTO TALLER VALUES('01_03','11AM','5PM',TO_DATE('11/09/2021', 'DD/MM/YYYY'),'trompo','taller trompo','1','2020')`)
-    console.log('newWorkshop =', newWorkshop)
+export async function createNewWorkshop(){
+    // const newWorkshop = await runInsert(`INSERT INTO TALLER VALUES('01_03','11AM','5PM',TO_DATE('11/09/2021', 'DD/MM/YYYY'),'Trompo','Taller trompo','1','2020')`)
+    // console.log('newWorkshop =', newWorkshop)
+    return `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+            <link rel="stylesheet" href="style.css">
+            <script src="main.js"></script>
+            <title>Añadir talleres</title>
+        </head>
+        <body >
+            <nav class="border-bottom">
+                <img src="media/139191135_3819700778053406_7422346157977545339_n.png" alt="" style="width: 60px; height: 60px;">
+                <div class="d-flex flex-column justify-content-center ms-3">
+                    <h5 >SISTEMA ESCOLAR</h5>
+                    <h6>Editar perfil</h6>
+                </div>
+                <a href="login.html" style="margin-left: auto; display: flex; padding: 10px; text-decoration: none;" >
+                    <button type="button" class="btn btn-info">Menu principal</button>
+                </a>
+            </nav>
+            <div class="form form_taller" style="width: 50%; margin-left: 320px;">
+                <div class="form-floating mb-3" style="width: 80%;">
+                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                    <label for="floatingInput">Codigo de taller</label>
+                </div>
+                <div class="form-floating mb-3" style="width: 80%;">
+                    <input type="email" class="form-control" id="floatingInput" placeholder="Password">
+                    <label for="floatingInput">Hora de inicio</label>
+                </div>
+                <div class="form-floating mb-3" style="width: 80%;">
+                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                    <label for="floatingInput">Hora de final</label>
+                </div>
+                <div class="form-floating mb-3" style="width: 80%;">
+                    <input type="email" class="form-control" id="floatingInput" placeholder="Password">
+                    <label for="floatingInput">Fecha</label>
+                </div>
+                <div class="form-floating mb-3" style="width: 80%;">
+                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                    <label for="floatingInput">Nombre Taller</label>
+                </div>
+                <div class="form-floating mb-3" style="width: 80%;">
+                    <input type="email" class="form-control" id="floatingInput" placeholder="Password">
+                    <label for="floatingInput">Descripcion</label>
+                </div>
+                <div class="form-floating mb-3" style="width: 80%;">
+                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                    <label for="floatingInput">Registro asistencia</label>
+                </div>
+                <div class="form-floating mb-3" style="width: 80%;">
+                    <input type="email" class="form-control" id="floatingInput" placeholder="Password">
+                    <label for="floatingInput">Codigo de docente</label>
+                </div>
+                <button type="button" class="btn btn-info">Añadir taller</button>
+            </div>
+        </body>
+        </html>
+    `
 }
 
 async function updateWorkshop(){
@@ -115,13 +177,13 @@ export async function getAllWorkshops() {
         htmlRowWS = htmlRowWS + tr_html
     }
     
-    console.log(htmlRowWS)
+    //console.log(htmlRowWS)
     // console.log(htmlRowWS)
     // console.log("")
     // console.log(htmlRow)
 
 
-    console.log('workshops =', workshops)
+    //console.log('workshops =', workshops)
     return `
             <!DOCTYPE html>
         <html lang="en">
