@@ -4,8 +4,9 @@ import { getAllWorkshops } from '../helper.mjs'
 const port = 9000
 const server = express()
 
-server.get('/', function (req, res) {
-    const html = getAllWorkshops()
+server.get('/talleres', async function (req, res) {
+    const html = await getAllWorkshops()
+    // const html = '<h1>Talleres</h1>'
     res.send(html)
 })
 

@@ -157,4 +157,4 @@ async function getAllMarksByStudent(){
 // getStudentsAndAttorney() 
 //updateWorkshop()
 // getAllMarksFromTeacher()
-getAllMarksByStudent()
+// getAllMarksByStudent()

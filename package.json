@@ -6,7 +6,7 @@
   "scripts": {
     "sql": "export TNS_ADMIN=/Users/angelotacoj/Angelo/ulima-projects/IDD_2022-1/idd_20221/Wallet_DB20220613222409 && node test-sql.js",
     "helper": "export TNS_ADMIN=/Users/angelotacoj/Angelo/ulima-projects/IDD_2022-1/idd_20221/Wallet_DB20220613222409 && node helper.mjs",
-    "server": "node server/server.mjs"
+    "server": "export TNS_ADMIN=/Users/angelotacoj/Angelo/ulima-projects/IDD_2022-1/idd_20221/Wallet_DB20220613222409 && node server/server.mjs"
   },
   "repository": {
     "type": "git",
