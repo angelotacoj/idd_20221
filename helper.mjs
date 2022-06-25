@@ -3,7 +3,7 @@
 // const dbConfig = require('./dbconfig.js');
 
 import * as fs from 'fs';
-import * as oracledb from 'oracledb'
+import oracledb from 'oracledb'
 import { dbConfig } from './dbconfig.mjs'
 
 
