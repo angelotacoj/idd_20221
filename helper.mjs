@@ -183,7 +183,7 @@ export async function getAllWorkshops() {
     // console.log(htmlRow)
 
 
-    console.log('workshops =', workshops)
+    //console.log('workshops =', workshops)
     return `
             <!DOCTYPE html>
         <html lang="en">
@@ -261,12 +261,12 @@ export async function getAllSectionsByTeacher(){
     for (const row of rows){  
         let htmlRow = ''
         for(const elem of row){
-            const h5_html = '<div class="card-body"><h5 class="card-title">'+elem+'</h5><a href="#" class="btn btn-primary">Siguiente</a></div>'
-            htmlRow = htmlRow + h5_html 
+            const div_html = '<div class="card-body"><h5 class="card-title">'+elem+'</h5><a href="#" class="btn btn-primary">Siguiente</a></div>'
+            htmlRow = htmlRow + div_html 
             //console.log(htmlRow)
         }
-        htmlRowSec = htmlRow
-        console.log(htmlRowSec)
+        htmlRowSec = htmlRowSec + htmlRow
+        //console.log(htmlRowSec)
     }
     //console.log('allSections = ', allSections)
     return `

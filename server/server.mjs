@@ -12,13 +12,11 @@ server.use(express.static('public'))
 
 server.get('/talleres', async function (req, res) {
     const html = await getAllWorkshops()
-    // const html = '<h1>Talleres</h1>'
     res.send(html)
 })
 
 server.get('/anadir_talleres', async function (req, res) {
     const html = await createNewWorkshop()
-    // const html = '<h1>Talleres</h1>'
     res.send(html)
 })
 
