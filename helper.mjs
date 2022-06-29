@@ -183,7 +183,7 @@ export async function getAllWorkshops() {
     // console.log(htmlRow)
 
 
-    //console.log('workshops =', workshops)
+    console.log('workshops =', workshops)
     return `
             <!DOCTYPE html>
         <html lang="en">
@@ -246,6 +246,68 @@ async function getStudentsAndAttorney() {
 // Insertar notas - Ver notas
 
 // CREAR NUEVAS NOTAS
+
+async function getAllSectionsByTeacher(){
+    const allSections = await runSelect(`SELECT S.NOMBRE_SECCION 
+    FROM PROFESORES P
+    INNER JOIN PROFESOR_TUTOR PT
+    ON P.COD_DOCENTE = PT.COD_DOCENTE
+    INNER JOIN SECCION S 
+    ON S.COD_DOCENTE = PT.COD_DOCENTE
+    WHERE PT.COD_DOCENTE = 20101001`)
+
+    return`
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+                <link rel="stylesheet" href="style.css">
+                <title>Elegir Seccion</title>
+            </head>
+            <body>
+                <nav class="border-bottom">
+                    <img src="media/139191135_3819700778053406_7422346157977545339_n.png" alt="" style="width: 60px; height: 60px;">
+                    <div class="d-flex flex-column justify-content-center ms-3">
+                        <h5 >SISTEMA ESCOLAR</h5>
+                        <h6>Editar perfil</h6>
+                    </div>
+                    <a href="login.html" style="margin-left: auto; display: flex; padding: 10px; text-decoration: none;" >
+                        <button type="button" class="btn btn-info">Menu principal</button>
+                    </a>
+                </nav>
+                <div class="d-flex align-items-center flex-column">
+                    <div class="card text-center mb-3" style="width: 18rem;">
+                        <div class="card-body">
+                        <h5 class="card-title">Seccion Rojo</h5>
+                        <a href="#" class="btn btn-primary">Siguiente</a>
+                        </div>
+                    </div>
+                    <div class="card text-center mb-3" style="width: 18rem;">
+                        <div class="card-body">
+                        <h5 class="card-title">Seccion Azul</h5>
+                        <a href="#" class="btn btn-primary">Siguiente</a>
+                        </div>
+                    </div>
+                    <div class="card text-center mb-3" style="width: 18rem;">
+                        <div class="card-body">
+                        <h5 class="card-title">Seccion Verde</h5>
+                        <a href="#" class="btn btn-primary">Siguiente</a>
+                        </div>
+                    </div>
+                </div>
+            </body>
+            </html>
+    `
+
+
+    console.log('allSections = ', allSections)
+}
+
+
 async function createNewMark(){
     const newMark = await runInsert(``)
     console.log('newMark =', newMark)
@@ -320,6 +382,9 @@ export async function getAllMarksBySection(){
         const tr_html = `<tr>`+ htmlRow + td_html_input +`</tr>`
         htmlRowWS = htmlRowWS + tr_html
     }
+    //console.log(htmlHead)
+    //console.log(htmlRowWS)
+    //console.log('marksBySection = ',marksBySection)
 
     return `
         <!DOCTYPE html>
@@ -374,3 +439,5 @@ export async function getAllMarksBySection(){
 //updateWorkshop()
 // getAllMarksFromTeacher()
 // getAllMarksByStudent()
+getAllSectionsByTeacher()
+//getAllMarksBySection()
