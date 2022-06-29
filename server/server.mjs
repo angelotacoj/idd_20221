@@ -27,7 +27,7 @@ server.get('/ingresar_notas', async function(req, res){
     res.send(html)
 })
 
-server.get('/seleccion_seccion', async function(req, res){
+server.get('/seccion', async function(req, res){
     const html = await getAllSectionsByTeacher()
     res.send(html)
 })

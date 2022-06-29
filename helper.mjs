@@ -247,7 +247,7 @@ async function getStudentsAndAttorney() {
 
 // CREAR NUEVAS NOTAS
 
-async function getAllSectionsByTeacher(){
+export async function getAllSectionsByTeacher(){
     const allSections = await runSelect(`SELECT S.NOMBRE_SECCION 
     FROM PROFESORES P
     INNER JOIN PROFESOR_TUTOR PT
@@ -256,55 +256,50 @@ async function getAllSectionsByTeacher(){
     ON S.COD_DOCENTE = PT.COD_DOCENTE
     WHERE PT.COD_DOCENTE = 20101001`)
 
-    return`
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-                <link rel="stylesheet" href="style.css">
-                <title>Elegir Seccion</title>
-            </head>
-            <body>
-                <nav class="border-bottom">
-                    <img src="media/139191135_3819700778053406_7422346157977545339_n.png" alt="" style="width: 60px; height: 60px;">
-                    <div class="d-flex flex-column justify-content-center ms-3">
-                        <h5 >SISTEMA ESCOLAR</h5>
-                        <h6>Editar perfil</h6>
-                    </div>
-                    <a href="login.html" style="margin-left: auto; display: flex; padding: 10px; text-decoration: none;" >
-                        <button type="button" class="btn btn-info">Menu principal</button>
-                    </a>
-                </nav>
-                <div class="d-flex align-items-center flex-column">
-                    <div class="card text-center mb-3" style="width: 18rem;">
-                        <div class="card-body">
-                        <h5 class="card-title">Seccion Rojo</h5>
-                        <a href="#" class="btn btn-primary">Siguiente</a>
-                        </div>
-                    </div>
-                    <div class="card text-center mb-3" style="width: 18rem;">
-                        <div class="card-body">
-                        <h5 class="card-title">Seccion Azul</h5>
-                        <a href="#" class="btn btn-primary">Siguiente</a>
-                        </div>
-                    </div>
-                    <div class="card text-center mb-3" style="width: 18rem;">
-                        <div class="card-body">
-                        <h5 class="card-title">Seccion Verde</h5>
-                        <a href="#" class="btn btn-primary">Siguiente</a>
-                        </div>
-                    </div>
-                </div>
-            </body>
-            </html>
+    const rows = allSections.rows
+    let htmlRowSec = ''
+    for (const row of rows){  
+        let htmlRow = ''
+        for(const elem of row){
+            const h5_html = '<div class="card-body"><h5 class="card-title">'+elem+'</h5><a href="#" class="btn btn-primary">Siguiente</a></div>'
+            htmlRow = htmlRow + h5_html 
+            //console.log(htmlRow)
+        }
+        htmlRowSec = htmlRow
+        console.log(htmlRowSec)
+    }
+    //console.log('allSections = ', allSections)
+    return `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="style.css">
+        <title>Elegir Seccion</title>
+    </head>
+    <body>
+        <nav class="border-bottom">
+            <img src="media/139191135_3819700778053406_7422346157977545339_n.png" alt="" style="width: 60px; height: 60px;">
+            <div class="d-flex flex-column justify-content-center ms-3">
+                <h5 >SISTEMA ESCOLAR</h5>
+                <h6>Editar perfil</h6>
+            </div>
+            <a href="login.html" style="margin-left: auto; display: flex; padding: 10px; text-decoration: none;" >
+                <button type="button" class="btn btn-info">Menu principal</button>
+            </a>
+        </nav>
+        <div class="d-flex align-items-center flex-column">
+            <div class="card text-center mb-3" style="width: 18rem;">
+                ${htmlRowSec}
+              </div>
+        </div>
+    </body>
+    </html>
     `
-
-
-    console.log('allSections = ', allSections)
 }
 
 
@@ -382,9 +377,6 @@ export async function getAllMarksBySection(){
         const tr_html = `<tr>`+ htmlRow + td_html_input +`</tr>`
         htmlRowWS = htmlRowWS + tr_html
     }
-    //console.log(htmlHead)
-    //console.log(htmlRowWS)
-    //console.log('marksBySection = ',marksBySection)
 
     return `
         <!DOCTYPE html>
@@ -440,4 +432,3 @@ export async function getAllMarksBySection(){
 // getAllMarksFromTeacher()
 // getAllMarksByStudent()
 getAllSectionsByTeacher()
-//getAllMarksBySection()
