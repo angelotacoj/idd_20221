@@ -1,8 +1,9 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import { getAllWorkshops } from '../helper.mjs'
-import { createNewWorkshop } from '../helper.mjs'
+import { showCreateNewWorkshop } from '../helper.mjs'
 import { getAllMarksBySection } from '../helper.mjs'
+import { createNewWorkshop } from '../helper.mjs'
 import { getAllSectionsByTeacher } from '../helper.mjs'
 import { updateNewMark } from '../helper.mjs'
 
@@ -20,8 +21,14 @@ server.get('/talleres', async function (req, res) {
 })
 
 server.get('/anadir_talleres', async function (req, res) {
-    const html = await createNewWorkshop()
+    const html = await showCreateNewWorkshop()
     res.send(html)
+})
+
+server.post('/anadir_talleres', async function (req,res){
+    await createNewWorkshop(req.body.cod_taller,req.body.timestart,req.body.timefinal,req.body.date,req.body.ws_name,req.body.ws_des,req.body.cod_teacher)
+    //console.log("Estoy aca: ",req.body)
+    res.redirect('/talleres')
 })
 
 server.get('/ingresar_notas', async function(req, res){

@@ -80,8 +80,18 @@ async function runUpdate(query) {
 
 // Workshop - Talleres
 
-export async function createNewWorkshop(){
-    // const newWorkshop = await runInsert(`INSERT INTO TALLER VALUES('01_03','11AM','5PM',TO_DATE('11/09/2021', 'DD/MM/YYYY'),'Trompo','Taller trompo','1','2020')`)
+async function updateWorkshop(){
+    const updateWorkshop = await runInsert(`UPDATE TALLER SET NOMBRE_TALLER ='NATACION', DESCRIPCION='TRAER GORRO Y LENTES DE BUZEO' WHERE COD_TALLER='01_02'`)
+    console.log('updateWorkshop =', updateWorkshop)
+}
+
+export async function createNewWorkshop(cod_taller,timestart,timefinal,date,ws_name,ws_des,cod_teacher){
+    const newWorkshop = await runInsert(
+        `INSERT INTO TALLER VALUES('${cod_taller}','${timestart}','${timefinal}',TO_DATE('${date}','DD/MM/YYYY'),'${ws_name}','${ws_des}',${cod_teacher})
+        `)
+}
+
+export async function showCreateNewWorkshop(){
     // console.log('newWorkshop =', newWorkshop)
     return `
         <!DOCTYPE html>
@@ -103,53 +113,47 @@ export async function createNewWorkshop(){
                     <h5 >SISTEMA ESCOLAR</h5>
                     <h6>Editar perfil</h6>
                 </div>
-                <a href="login.html" style="margin-left: auto; display: flex; padding: 10px; text-decoration: none;" >
+                <a href="/dashboard_doc.html" style="margin-left: auto; display: flex; padding: 10px; text-decoration: none;" >
                     <button type="button" class="btn btn-info">Menu principal</button>
                 </a>
             </nav>
-            <div class="form form_taller" style="width: 50%; margin-left: 320px;">
-                <div class="form-floating mb-3" style="width: 80%;">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                    <label for="floatingInput">Codigo de taller</label>
+            <form method="post" action="/anadir_talleres">
+                <div class="form form_taller" style="width: 50%; margin-left: 320px;">
+                    <div class="form-floating mb-3" style="width: 80%;">
+                        <input name="cod_taller" type="text" class="form-control" id="floatingInput" placeholder="name@example.com">
+                        <label for="floatingInput">Codigo de taller</label>
+                    </div>
+                    <div class="form-floating mb-3" style="width: 80%;">
+                        <input name="timestart" type="text" class="form-control" id="floatingInput" placeholder="Password">
+                        <label for="floatingInput">Hora de inicio</label>
+                    </div>
+                    <div class="form-floating mb-3" style="width: 80%;">
+                        <input name="timefinal" type="text" class="form-control" id="floatingInput" placeholder="name@example.com">
+                        <label for="floatingInput">Hora de final</label>
+                    </div>
+                    <div class="form-floating mb-3" style="width: 80%;">
+                        <input name="date" type="text" class="form-control" id="floatingInput" placeholder="Password">
+                        <label for="floatingInput">Fecha</label>
+                    </div>
+                    <div class="form-floating mb-3" style="width: 80%;">
+                        <input name="ws_name" type="text" class="form-control" id="floatingInput" placeholder="name@example.com">
+                        <label for="floatingInput">Nombre Taller</label>
+                    </div>
+                    <div class="form-floating mb-3" style="width: 80%;">
+                        <input name="ws_des" type="text" class="form-control" id="floatingInput" placeholder="Password">
+                        <label for="floatingInput">Descripcion</label>
+                    </div>
+                    <div class="form-floating mb-3" style="width: 80%;">
+                        <input name="cod_teacher" "type="text" class="form-control" id="floatingInput" placeholder="Password">
+                        <label for="floatingInput">Codigo de docente</label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-info">Añadir taller</button>
                 </div>
-                <div class="form-floating mb-3" style="width: 80%;">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="Password">
-                    <label for="floatingInput">Hora de inicio</label>
-                </div>
-                <div class="form-floating mb-3" style="width: 80%;">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                    <label for="floatingInput">Hora de final</label>
-                </div>
-                <div class="form-floating mb-3" style="width: 80%;">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="Password">
-                    <label for="floatingInput">Fecha</label>
-                </div>
-                <div class="form-floating mb-3" style="width: 80%;">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                    <label for="floatingInput">Nombre Taller</label>
-                </div>
-                <div class="form-floating mb-3" style="width: 80%;">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="Password">
-                    <label for="floatingInput">Descripcion</label>
-                </div>
-                <div class="form-floating mb-3" style="width: 80%;">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                    <label for="floatingInput">Registro asistencia</label>
-                </div>
-                <div class="form-floating mb-3" style="width: 80%;">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="Password">
-                    <label for="floatingInput">Codigo de docente</label>
-                </div>
-                <button type="button" class="btn btn-info">Añadir taller</button>
-            </div>
+            </form>
         </body>
         </html>
     `
-}
-
-async function updateWorkshop(){
-    const updateWorkshop = await runInsert(`UPDATE TALLER SET NOMBRE_TALLER ='NATACION', DESCRIPCION='TRAER GORRO Y LENTES DE BUZEO' WHERE COD_TALLER='01_02'`)
-    console.log('updateWorkshop =', updateWorkshop)
 }
 
 export async function getAllWorkshops() {
@@ -169,20 +173,18 @@ export async function getAllWorkshops() {
     let htmlRowWS = ''
     for (const row of rows){  
         let htmlRow = ''
+        //console.log(row)
         for(const elem of row){
             const td_html = `<td>`+ elem +`</td>`
             htmlRow = htmlRow + td_html
         }
         const tr_html = `<tr>`+ htmlRow +`</tr>`
         htmlRowWS = htmlRowWS + tr_html
+        //console.log(htmlRowWS)
     }
-    
-    //console.log(htmlRowWS)
     // console.log(htmlRowWS)
     // console.log("")
-    // console.log(htmlRow)
-
-
+    //console.log(htmlRow)
     //console.log('workshops =', workshops)
     return `
             <!DOCTYPE html>
@@ -203,7 +205,7 @@ export async function getAllWorkshops() {
                     <h5 >SISTEMA ESCOLAR</h5>
                     <h6>Editar perfil</h6>
                 </div>
-                <a href="login.html" style="margin-left: auto; display: flex; padding: 10px; text-decoration: none;" >
+                <a href="/dashboard_doc.html" style="margin-left: auto; display: flex; padding: 10px; text-decoration: none;" >
                     <button type="button" class="btn btn-info">Menu principal</button>
                 </a>
             </nav>
@@ -254,14 +256,15 @@ export async function getAllSectionsByTeacher(){
     ON P.COD_DOCENTE = PT.COD_DOCENTE
     INNER JOIN SECCION S 
     ON S.COD_DOCENTE = PT.COD_DOCENTE
-    WHERE PT.COD_DOCENTE = 20101001`)
+    WHERE PT.COD_DOCENTE = 20101004`)
+    // AQUI ELIJES EL PROFESOR PARA QUE TE ARROJE LAS SECCIONES QUE TIENE ASIGNADA
 
     const rows = allSections.rows
     let htmlRowSec = ''
     for (const row of rows){  
         let htmlRow = ''
         for(const elem of row){
-            const div_html = '<div class="card-body"><h5 class="card-title">'+elem+'</h5><a href="#" class="btn btn-primary">Siguiente</a></div>'
+            const div_html = '<div class="card-body mb-3"><h5 class="card-title">'+elem+'</h5><a href="#" class="btn btn-primary">Siguiente</a></div>'
             htmlRow = htmlRow + div_html 
             //console.log(htmlRow)
         }
@@ -288,7 +291,7 @@ export async function getAllSectionsByTeacher(){
                 <h5 >SISTEMA ESCOLAR</h5>
                 <h6>Editar perfil</h6>
             </div>
-            <a href="login.html" style="margin-left: auto; display: flex; padding: 10px; text-decoration: none;" >
+            <a href="/dashboard_doc.html" style="margin-left: auto; display: flex; padding: 10px; text-decoration: none;" >
                 <button type="button" class="btn btn-info">Menu principal</button>
             </a>
         </nav>
@@ -444,7 +447,7 @@ export async function getAllMarksBySection(){
 
 // --------LAMADA DE FUNCIONES -----//
 // createNewWorkshop()
-// getAllWorkshops()
+//getAllWorkshops()
 // getStudentsAndAttorney() 
 //updateWorkshop()
 // getAllMarksFromTeacher()
