@@ -1,13 +1,17 @@
 import express from 'express'
+import bodyParser from 'body-parser'
 import { getAllWorkshops } from '../helper.mjs'
 import { createNewWorkshop } from '../helper.mjs'
 import { getAllMarksBySection } from '../helper.mjs'
 import { getAllSectionsByTeacher } from '../helper.mjs'
+import { updateNewMark } from '../helper.mjs'
 
 
 const port = 9000
 const server = express()
 
+
+server.use(bodyParser.urlencoded({extended: false}));
 server.use(express.static('public'))
 
 server.get('/talleres', async function (req, res) {
@@ -28,6 +32,12 @@ server.get('/ingresar_notas', async function(req, res){
 server.get('/seccion', async function(req, res){
     const html = await getAllSectionsByTeacher()
     res.send(html)
+})
+
+server.post('/ingresar_notas', async function(req,res){
+    await updateNewMark(req.body.grade,req.body.cod_student,req.body.cod_section)
+    //console.log(req.body)
+    res.redirect('/ingresar_notas')
 })
 
 server.listen(port, function () {

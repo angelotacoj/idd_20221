@@ -225,8 +225,8 @@ export async function getAllWorkshops() {
 
                     </div>
                 </div>
-                <button type="button" class="btn btn-primary">Agregar Taller</button>
-                <button type="button" class="btn btn-secondary">Editar Taller</button>
+                <a href="/anadir_talleres"  type="button" class="btn btn-primary">Agregar Taller</a>
+                <!--<button type="button" class="btn btn-secondary">Editar Taller</button>-->
             </div>
         </body>
         </html>  
@@ -303,9 +303,13 @@ export async function getAllSectionsByTeacher(){
 }
 
 
-async function createNewMark(){
-    const newMark = await runInsert(``)
-    console.log('newMark =', newMark)
+export async function updateNewMark(grade,cod_student,cod_section){
+    const updateMark = await runUpdate(`
+    UPDATE NOTA 
+    SET VALOR = '${grade}'
+    WHERE COD_ALUMNO = '${cod_student}' AND COD_SECCION='${cod_section}'
+    `)
+    console.log('updateMark =', updateMark)
 }
 
 // MOSTRAR TODAS LAS NOTAS ASIGNADAS POR UN DOCENTE 
@@ -345,7 +349,7 @@ async function getAllMarksByStudent(){
 
 export async function getAllMarksBySection(){
     const marksBySection = await runSelect(
-        `SELECT U.DNI, U.NOMBRES_NOMBRE, U.APELLIDOP_NOMBRE, U.APELLIDOM_NOMBRE,S.NOMBRE_SECCION
+        `SELECT U.DNI, U.NOMBRES_NOMBRE, U.APELLIDOP_NOMBRE, U.APELLIDOM_NOMBRE,S.NOMBRE_SECCION, S.COD_SECCION ,N.VALOR AS NOTA
         FROM USUARIO U
         INNER JOIN ALUMNO A 
         ON U.DNI = A.COD_ALUMNO
@@ -353,6 +357,8 @@ export async function getAllMarksBySection(){
         ON M.COD_ALUMNO = A.COD_ALUMNO
         INNER JOIN SECCION S 
         ON M.COD_SECCION = S.COD_SECCION
+        INNER JOIN NOTA N 
+        ON S.COD_SECCION = N.COD_SECCION AND A.COD_ALUMNO = N.COD_ALUMNO
         WHERE S.NOMBRE_SECCION='ROJO'
         `
     )
@@ -366,15 +372,27 @@ export async function getAllMarksBySection(){
         //console.log(nameHTML)
     }
     let htmlRowWS = ''
+
     for (const row of rows){  
         let htmlRow = ''
+        const grade = row.splice(-1)
+        const cod_student = row[0]
+        const cod_section = row[5]
+        console.log(row)
         for(const elem of row){
             const td_html = `<td>`+ elem +`</td>`
-            
             htmlRow = htmlRow + td_html 
+
         }
-        const td_html_input = `<td><input type="text"></td>`
-        const tr_html = `<tr>`+ htmlRow + td_html_input +`</tr>`
+        const td_html_input = `
+            <td>
+                <form method="post" action="/ingresar_notas">
+                    <input name="grade" type="text" value="${grade[0]}">
+                    <input name="cod_student" type="hidden" value="${cod_student}">
+                    <input name="cod_section" type="hidden" value="${cod_section}">
+                </form>
+            </td>`
+        const tr_html = `<tr>`+ htmlRow + td_html_input+`</tr>`
         htmlRowWS = htmlRowWS + tr_html
     }
 
@@ -407,7 +425,7 @@ export async function getAllMarksBySection(){
                     <thead>
                     <tr>
                         ${htmlHead}
-                        <th scope="col">NOTA</th>
+                        
                     </tr>
                     </thead>
                     <tbody>
@@ -431,4 +449,4 @@ export async function getAllMarksBySection(){
 //updateWorkshop()
 // getAllMarksFromTeacher()
 // getAllMarksByStudent()
-getAllSectionsByTeacher()
+//getAllSectionsByTeacher()
