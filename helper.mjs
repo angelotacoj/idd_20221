@@ -105,8 +105,6 @@ async function updateWorkshop(){
     console.log('updateWorkshop =', updateWorkshop)
 }
 
-
-
 export async function deleteWorkshop(cod_taller){
     const deleteWS = await runDelete(`DELETE FROM TALLER WHERE COD_TALLER='${cod_taller}'`)
 }
@@ -130,7 +128,7 @@ export async function showDeleteWS(){
             <img src="media/139191135_3819700778053406_7422346157977545339_n.png" alt="" style="width: 60px; height: 60px;">
             <div class="d-flex flex-column justify-content-center ms-3">
                 <h5 >SISTEMA ESCOLAR</h5>
-                <h6>Editar perfil</h6>
+                <h6>Eliminar taller</h6>
             </div>
             <a href="/dashboard_doc.html" style="margin-left: auto; display: flex; padding: 10px; text-decoration: none;" >
                 <button type="button" class="btn btn-info">Menu principal</button>
@@ -178,7 +176,7 @@ export async function showCreateNewWorkshop(){
                 <img src="media/139191135_3819700778053406_7422346157977545339_n.png" alt="" style="width: 60px; height: 60px;">
                 <div class="d-flex flex-column justify-content-center ms-3">
                     <h5 >SISTEMA ESCOLAR</h5>
-                    <h6>Editar perfil</h6>
+                    <h6>Crear nuevo taller</h6>
                 </div>
                 <a href="/dashboard_doc.html" style="margin-left: auto; display: flex; padding: 10px; text-decoration: none;" >
                     <button type="button" class="btn btn-info">Menu principal</button>
@@ -264,14 +262,14 @@ export async function getAllWorkshops() {
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
             <link rel="stylesheet" href="style.css">
-            <title>Document</title>
+            <title>Talleres</title>
         </head>
         <body>
             <nav class="border-bottom">
                 <img src="media/139191135_3819700778053406_7422346157977545339_n.png" alt="" style="width: 60px; height: 60px;">
                 <div class="d-flex flex-column justify-content-center ms-3">
                     <h5 >SISTEMA ESCOLAR</h5>
-                    <h6>Editar perfil</h6>
+                    <h6>Visualizacion de todos los talleres</h6>
                 </div>
                 <a href="/dashboard_doc.html" style="margin-left: auto; display: flex; padding: 10px; text-decoration: none;" >
                     <button type="button" class="btn btn-info">Menu principal</button>
@@ -360,7 +358,7 @@ export async function getAllSectionsByTeacher(){
             <img src="media/139191135_3819700778053406_7422346157977545339_n.png" alt="" style="width: 60px; height: 60px;">
             <div class="d-flex flex-column justify-content-center ms-3">
                 <h5 >SISTEMA ESCOLAR</h5>
-                <h6>Editar perfil</h6>
+                <h6>Secciones</h6>
             </div>
             <a href="/dashboard_doc.html" style="margin-left: auto; display: flex; padding: 10px; text-decoration: none;" >
                 <button type="button" class="btn btn-info">Menu principal</button>
@@ -433,7 +431,7 @@ export async function getAllMarksBySection(){
         ON M.COD_SECCION = S.COD_SECCION
         INNER JOIN NOTA N 
         ON S.COD_SECCION = N.COD_SECCION AND A.COD_ALUMNO = N.COD_ALUMNO
-        WHERE S.NOMBRE_SECCION='ROJO'
+        WHERE S.NOMBRE_SECCION='VERDE LIMON'
         `
     )
     const headers = marksBySection.metaData
@@ -482,7 +480,7 @@ export async function getAllMarksBySection(){
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
             <link rel="stylesheet" href="style.css">
-            <title>Document</title>
+            <title>Ingreso de notas</title>
         </head>
         <body>
         <nav class="border-bottom">
@@ -518,7 +516,7 @@ export async function getAllMarksBySection(){
 
 
 
-// --------LAMADA DE FUNCIONES -----//
+// --------LLAMADA DE FUNCIONES -----//
 // createNewWorkshop()
 //getAllWorkshops()
 // getStudentsAndAttorney() 
