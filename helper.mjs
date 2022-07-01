@@ -157,7 +157,7 @@ export async function showCreateNewWorkshop(){
 }
 
 export async function getAllWorkshops() {
-    const workshops = await runSelect(`SELECT COD_TALLER, NOMBRE_TALLER, DESCRIPCION, FECHA, UPPER(HORA_INICIO || ' - ' || HORA_FINAL) AS HORA FROM TALLER`)
+    const workshops = await runSelect(`SELECT COD_TALLER, NOMBRE_TALLER, DESCRIPCION, FECHA, UPPER(HORA_INICIO || ' - ' || HORA_FINAL) AS HORA, COD_DOCENTE FROM TALLER`)
     const headers = workshops.metaData
     const rows = workshops.rows
     //console.log('headers =', headers)
