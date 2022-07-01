@@ -77,6 +77,26 @@ async function runUpdate(query) {
         }
     }
 }
+async function runDelete(query) {
+    let conn
+
+    try {
+        conn = await oracledb.getConnection(dbConfig)
+        const result = await conn.execute(query,
+            [],
+            {autoCommit: true}
+            )
+        return result
+    } catch (err) {
+        console.error('err 1 =', err)
+    } finally {
+        try {
+            if (conn) await conn.close()
+        } catch (err) {
+            console.error('err 2 =', err)
+        }
+    }
+}
 
 // Workshop - Talleres
 
@@ -85,11 +105,58 @@ async function updateWorkshop(){
     console.log('updateWorkshop =', updateWorkshop)
 }
 
+
+
+export async function deleteWorkshop(cod_taller){
+    const deleteWS = await runDelete(`DELETE FROM TALLER WHERE COD_TALLER='${cod_taller}'`)
+}
+
+export async function showDeleteWS(){
+    return `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="style.css">
+        <script src="main.js"></script>
+        <title>Eliminar talleres</title>
+    </head>
+    <body >
+        <nav class="border-bottom">
+            <img src="media/139191135_3819700778053406_7422346157977545339_n.png" alt="" style="width: 60px; height: 60px;">
+            <div class="d-flex flex-column justify-content-center ms-3">
+                <h5 >SISTEMA ESCOLAR</h5>
+                <h6>Editar perfil</h6>
+            </div>
+            <a href="/dashboard_doc.html" style="margin-left: auto; display: flex; padding: 10px; text-decoration: none;" >
+                <button type="button" class="btn btn-info">Menu principal</button>
+            </a>
+        </nav>
+        <form method="post" action="/eliminar_taller">
+            <div class="form form_taller" style="width: 50%; margin-left: 320px;">
+                <div class="form-floating mb-3" style="width: 80%;">
+                    <input name="cod_taller" type="text" class="form-control" id="floatingInput" placeholder="name@example.com">
+                    <label for="floatingInput">Codigo de taller</label>
+                </div>
+                <button type="submit" class="btn btn-info">Eliminar este taller</button>
+                    
+            </div>
+         </form>     
+         </body>
+        </html>          
+    `
+}
+
 export async function createNewWorkshop(cod_taller,timestart,timefinal,date,ws_name,ws_des,cod_teacher){
     const newWorkshop = await runInsert(
         `INSERT INTO TALLER VALUES('${cod_taller}','${timestart}','${timefinal}',TO_DATE('${date}','DD/MM/YYYY'),'${ws_name}','${ws_des}',${cod_teacher})
         `)
 }
+
 
 export async function showCreateNewWorkshop(){
     // console.log('newWorkshop =', newWorkshop)
@@ -149,6 +216,7 @@ export async function showCreateNewWorkshop(){
                     </div>
                     
                     <button type="submit" class="btn btn-info">Añadir taller</button>
+                    
                 </div>
             </form>
         </body>
@@ -228,6 +296,7 @@ export async function getAllWorkshops() {
                     </div>
                 </div>
                 <a href="/anadir_talleres"  type="button" class="btn btn-primary">Agregar Taller</a>
+                <a href="/eliminar_taller"  type="button" class="btn btn-primary">Eliminar Taller</a>
                 <!--<button type="button" class="btn btn-secondary">Editar Taller</button>-->
             </div>
         </body>

@@ -6,6 +6,8 @@ import { getAllMarksBySection } from '../helper.mjs'
 import { createNewWorkshop } from '../helper.mjs'
 import { getAllSectionsByTeacher } from '../helper.mjs'
 import { updateNewMark } from '../helper.mjs'
+import { deleteWorkshop } from '../helper.mjs'
+import { showDeleteWS } from '../helper.mjs'
 
 
 const port = 9000
@@ -28,6 +30,16 @@ server.get('/anadir_talleres', async function (req, res) {
 server.post('/anadir_talleres', async function (req,res){
     await createNewWorkshop(req.body.cod_taller,req.body.timestart,req.body.timefinal,req.body.date,req.body.ws_name,req.body.ws_des,req.body.cod_teacher)
     //console.log("Estoy aca: ",req.body)
+    res.redirect('/talleres')
+})
+
+server.get('/eliminar_taller', async function (req, res) {
+    const html = await showDeleteWS()
+    res.send(html)
+})
+
+server.post('/eliminar_taller', async function (req,res){
+    await deleteWorkshop(req.body.cod_taller)
     res.redirect('/talleres')
 })
 
