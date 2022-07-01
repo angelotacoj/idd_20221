@@ -42,7 +42,7 @@ server.get('/seccion', async function(req, res){
 })
 
 server.post('/ingresar_notas', async function(req,res){
-    await updateNewMark(req.body.grade,req.body.cod_student,req.body.cod_section)
+    await updateNewMark(req.body.grade,req.body.cod_student,req.body.cod_section,req.body.name_course)
     //console.log(req.body)
     res.redirect('/ingresar_notas')
 })

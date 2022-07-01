@@ -249,6 +249,8 @@ async function getStudentsAndAttorney() {
 
 // CREAR NUEVAS NOTAS
 
+
+// USAR en PT.COD_DOCENTE = 20101001-03-04-05-06
 export async function getAllSectionsByTeacher(){
     const allSections = await runSelect(`SELECT S.NOMBRE_SECCION 
     FROM PROFESORES P
@@ -256,7 +258,7 @@ export async function getAllSectionsByTeacher(){
     ON P.COD_DOCENTE = PT.COD_DOCENTE
     INNER JOIN SECCION S 
     ON S.COD_DOCENTE = PT.COD_DOCENTE
-    WHERE PT.COD_DOCENTE = 20101004`)
+    WHERE PT.COD_DOCENTE = 20101006`)
     // AQUI ELIJES EL PROFESOR PARA QUE TE ARROJE LAS SECCIONES QUE TIENE ASIGNADA
 
     const rows = allSections.rows
@@ -306,11 +308,11 @@ export async function getAllSectionsByTeacher(){
 }
 
 
-export async function updateNewMark(grade,cod_student,cod_section){
+export async function updateNewMark(grade,cod_student,cod_section,name_course){
     const updateMark = await runUpdate(`
     UPDATE NOTA 
     SET VALOR = '${grade}'
-    WHERE COD_ALUMNO = '${cod_student}' AND COD_SECCION='${cod_section}'
+    WHERE COD_ALUMNO = '${cod_student}' AND COD_SECCION='${cod_section}' AND AREA='${name_course}'
     `)
     console.log('updateMark =', updateMark)
 }
@@ -352,7 +354,7 @@ async function getAllMarksByStudent(){
 
 export async function getAllMarksBySection(){
     const marksBySection = await runSelect(
-        `SELECT U.DNI, U.NOMBRES_NOMBRE, U.APELLIDOP_NOMBRE, U.APELLIDOM_NOMBRE,S.NOMBRE_SECCION, S.COD_SECCION ,N.VALOR AS NOTA
+        `SELECT U.DNI, UPPER(U.NOMBRES_NOMBRE || ' ' || U.APELLIDOP_NOMBRE || ' ' || U.APELLIDOM_NOMBRE) AS NOMBRE_ALUMNO,S.NOMBRE_SECCION, S.COD_SECCION,N.AREA ,N.VALOR AS NOTA
         FROM USUARIO U
         INNER JOIN ALUMNO A 
         ON U.DNI = A.COD_ALUMNO
@@ -380,8 +382,9 @@ export async function getAllMarksBySection(){
         let htmlRow = ''
         const grade = row.splice(-1)
         const cod_student = row[0]
-        const cod_section = row[5]
-        console.log(row)
+        const cod_section = row[3]
+        const name_course = row[4]
+        //console.log(row)
         for(const elem of row){
             const td_html = `<td>`+ elem +`</td>`
             htmlRow = htmlRow + td_html 
@@ -393,6 +396,7 @@ export async function getAllMarksBySection(){
                     <input name="grade" type="text" value="${grade[0]}">
                     <input name="cod_student" type="hidden" value="${cod_student}">
                     <input name="cod_section" type="hidden" value="${cod_section}">
+                    <input name="name_course" type="hidden" value="${name_course}">
                 </form>
             </td>`
         const tr_html = `<tr>`+ htmlRow + td_html_input+`</tr>`
@@ -453,3 +457,4 @@ export async function getAllMarksBySection(){
 // getAllMarksFromTeacher()
 // getAllMarksByStudent()
 //getAllSectionsByTeacher()
+//getAllMarksBySection()
